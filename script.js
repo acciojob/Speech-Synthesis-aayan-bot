@@ -42,4 +42,4 @@
   speakButton.addEventListener('click', () => toggle(true));
   stopButton.addEventListener('click', () => toggle(false));
 
-  stopButton.addEventListener('click', () => toggle(false));
+ 
