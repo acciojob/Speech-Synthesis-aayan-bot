@@ -1,7 +1,6 @@
-msg.text = document.querySelector('[name="text"]').value;
-
+// Populate voices on page load and on voiceschanged
   function populateVoices() {
-    voices = this.getVoices();
+    voices = speechSynthesis.getVoices();
     if (voices.length === 0) {
       voicesDropdown.innerHTML = '<option value="">No voices available</option>';
       return;
@@ -18,8 +17,8 @@ msg.text = document.querySelector('[name="text"]').value;
 
   function toggle(startOver = true) {
     speechSynthesis.cancel();
-    
-    // Dynamically update msg.text with current textarea value
+
+    // Always fetch current textarea text directly when toggle runs
     const textInput = document.querySelector('[name="text"]').value;
     msg.text = textInput;
 
@@ -33,9 +32,14 @@ msg.text = document.querySelector('[name="text"]').value;
     toggle();
   }
 
+  // Initial call to catch voices if already loaded synchronously
+  populateVoices();
+
   // Event Listeners
   speechSynthesis.addEventListener('voiceschanged', populateVoices);
   voicesDropdown.addEventListener('change', setVoice);
   options.forEach(option => option.addEventListener('change', setOption));
   speakButton.addEventListener('click', () => toggle(true));
+  stopButton.addEventListener('click', () => toggle(false));
+
   stopButton.addEventListener('click', () => toggle(false));
